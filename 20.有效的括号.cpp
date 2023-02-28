@@ -8,34 +8,18 @@
 class Solution {
 public:
     bool isValid(string s) {
-        /*
-            ';'after map
-            stk.pop(),top()
-        */
-        map<char, int> bracket{
-            {'(', 1},
-            {')', -1},
-            {'[', 2},
-            {']', -2},
-            {'{', 3},
-            {'}', -3},
-        };
         stack<char> stk;
-        int len = s.size();
-        for(int i = 0; i < len; ++i){
-            if(bracket[s[i]] > 0){
-                stk.push(s[i]);
-            }
+        if(s.size() % 2 != 0) return false;
+        for(int i = 0; i < s.size(); ++i) {
+            if(s[i] == '(') stk.push(')');
+            else if(s[i] == '{') stk.push('}');
+            else if(s[i] == '[') stk.push(']');
             else{
-                if(stk.empty() || bracket[stk.top()] + bracket[s[i]] != 0){
-                    return false;
-                }
-                stk.pop();
+                if(!stk.empty() && s[i] == stk.top()) stk.pop();
+                else return false;
             }
         }
-        if(stk.empty()) return true;
-        else return false;
-
+        return stk.empty();
     }
 };
 // @lc code=end

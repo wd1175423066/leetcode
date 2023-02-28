@@ -9,9 +9,8 @@ class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int, int> counts;
-        int max_count = 0;
         for(const int & num : nums){
-            max_count = max(max_count, ++counts[num]);
+            ++counts[num];
         }
         // generate buckets
         vector<vector<int>> buckets(max_count + 1);
