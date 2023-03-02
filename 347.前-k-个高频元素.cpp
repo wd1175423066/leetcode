@@ -6,25 +6,33 @@
 
 // @lc code=start
 class Solution {
+    class com{
+        public:
+            bool operator()(const pair<int, int>& a, const pair<int, int>& b) {
+                return a.second > b.second;
+            }
+    };
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int, int> counts;
         for(const int & num : nums){
             ++counts[num];
         }
-        // generate buckets
-        vector<vector<int>> buckets(max_count + 1);
-        for(const auto & p : counts){
-            buckets[p.second].push_back(p.first);
+        // generate priority_queue
+        priority_queue<pair<int, int>, vector<pair<int, int>>, com> pri_q;
+
+        for(auto it = counts.begin(); it != counts.end(); ++it) {
+            pri_q.push(*it);
+            if(pri_q.size() > k) pri_q.pop();
         }
-        vector<int> ans;
-        for(int i = max_count; i >= 0 && ans.size() < k; --i){
-            for(const int & num : buckets[i]){
-                ans.push_back(num);
-                if(ans.size() == k) break;
-            }
+
+        vector<int> res(k);
+        for(int i = k - 1; i >= 0; --i) {
+            res[i] = pri_q.top().first;
+            pri_q.pop();
         }
-        return ans;
+        
+        return res;
     }
 };
 // @lc code=end
