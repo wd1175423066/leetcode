@@ -13,13 +13,14 @@ public:
         // if(n == 2) return 2;
         // return climbStairs(n - 1) + climbStairs(n - 2);
         // a[n] = a[n-1] + a[n-2]
-        vector<int> dp;
-        dp.push_back(1);
-        dp.push_back(2);
-        for(int i = 2; i < n; ++i){
-            dp.push_back(dp[i - 1] + dp[i - 2]);
-        }
-        return dp[n - 1];
+        vector<int> dp(n + 1, 0);
+        dp[0] = 1;
+        for(int j = 1; j <= n; ++j) {
+            for(int i = 1; i <= 2; ++i) {
+                if(j - i >= 0) dp[j] += dp[j - i];
+            }
+        } 
+        return dp[n];
     }
 };
 // @lc code=end
